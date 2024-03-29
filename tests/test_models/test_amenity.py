@@ -1,19 +1,33 @@
-#!/usr/bin/python3
-""" This module handles unittest for the class Amenity """
-from tests.test_models.test_base_model import test_basemodel
+import unittest
 from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.base import Base
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String
+from os import getenv
 
 
-class test_Amenity(test_basemodel):
-    """Contains all the unitest associated with testing Amenity cls """
+class TestAmenity(unittest.TestCase):
+    def test_inheritance(self):
+        amenity = Amenity()
+        self.assertIsInstance(amenity, BaseModel)
+        self.assertIsInstance(amenity, Base)
 
-    def __init__(self, *args, **kwargs):
-        """ Constructor setting up our object(s) for the tests """
-        super().__init__(*args, **kwargs)
-        self.name = "Amenity"
-        self.value = Amenity
+    def test_attributes(self):
+        amenity = Amenity()
+        self.assertTrue(hasattr(amenity, "name"))
+        self.assertIsInstance(amenity.name, Column)
+        self.assertEqual(amenity.name.type, String(128))
+        self.assertFalse(amenity.name.nullable)
 
-    def test_name2(self):
-        """ Serves to the correct storage of the name """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+    def test_relationship(self):
+        if getenv("HBNB_TYPE_STORAGE") == "db":
+            amenity = Amenity()
+            self.assertTrue(hasattr(amenity, "place_amenities"))
+            self.assertIsInstance(amenity.place_amenities, relationship)
+            self.assertEqual(amenity.place_amenities.secondary, 'place_amenity')
+            self.assertEqual(amenity.place_amenities.back_populates, 'amenities')
+
+
+if __name__ == '__main__':
+    unittest.main()

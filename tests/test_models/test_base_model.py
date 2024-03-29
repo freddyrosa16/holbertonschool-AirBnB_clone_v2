@@ -128,3 +128,58 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+# Existing code...
+
+class test_basemodel(unittest.TestCase):
+    # Existing code...
+
+    def test_init(self):
+        """
+        Test the initialization of BaseModel instance
+        """
+        i = self.value()
+        self.assertEqual(type(i.id), str)
+        self.assertEqual(type(i.created_at), datetime.datetime)
+        self.assertEqual(type(i.updated_at), datetime.datetime)
+
+    def test_str_representation(self):
+        """
+        Test the string representation of BaseModel instance
+        """
+        i = self.value()
+        expected_str = '[{}] ({}) {}'.format(self.name, i.id, i.__dict__)
+        self.assertEqual(str(i), expected_str)
+
+    def test_save_updates_updated_at(self):
+        """
+        Test that save() method updates the updated_at attribute
+        """
+        i = self.value()
+        old_updated_at = i.updated_at
+        i.save()
+        self.assertNotEqual(old_updated_at, i.updated_at)
+
+    def test_to_dict(self):
+        """
+        Test the to_dict() method of BaseModel instance
+        """
+        i = self.value()
+        d = i.to_dict()
+        self.assertEqual(type(d), dict)
+        self.assertIn('__class__', d)
+        self.assertEqual(d['__class__'], self.name)
+        self.assertIn('id', d)
+        self.assertEqual(d['id'], i.id)
+        self.assertIn('created_at', d)
+        self.assertEqual(d['created_at'], i.created_at.isoformat())
+        self.assertIn('updated_at', d)
+        self.assertEqual(d['updated_at'], i.updated_at.isoformat())
+
+    def test_delete(self):
+        """
+        Test the delete() method of BaseModel instance
+        """
+        i = self.value()
+        i.save()
+        i.delete()
+        self.assertNotIn(i, models.storage.all().values())
