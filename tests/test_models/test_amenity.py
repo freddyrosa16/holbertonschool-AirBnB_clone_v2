@@ -25,8 +25,10 @@ class TestAmenity(unittest.TestCase):
             amenity = Amenity()
             self.assertTrue(hasattr(amenity, "place_amenities"))
             self.assertIsInstance(amenity.place_amenities, relationship)
-            self.assertEqual(amenity.place_amenities.secondary, 'place_amenity')
-            self.assertEqual(amenity.place_amenities.back_populates, 'amenities')
+            self.assertEqual(amenity.place_amenities.secondary,
+                             'place_amenity')
+            self.assertEqual(amenity.place_amenities.back_populates,
+                             'amenities')
 
 
 if __name__ == '__main__':

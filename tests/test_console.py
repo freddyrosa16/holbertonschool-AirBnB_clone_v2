@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import unittest
 from unittest.mock import patch
 from io import StringIO
@@ -118,6 +120,7 @@ class TestConsoleDocs(unittest.TestCase):
             cmd.default('BaseModel.all()')
             output = f.getvalue().strip()
             self.assertEqual(output, '')
+
 
 if __name__ == '__main__':
     unittest.main()

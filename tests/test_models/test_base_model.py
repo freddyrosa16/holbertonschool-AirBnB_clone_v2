@@ -36,8 +36,10 @@ class test_basemodel(unittest.TestCase):
         """
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
+        except OSError as e:
+            print(f"Error removing file: {e}")
 
     def test_default(self):
         """
