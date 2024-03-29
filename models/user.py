@@ -5,6 +5,8 @@ from models.base_model import BaseModel
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+
 
 
 class User(BaseModel, Base):
@@ -18,3 +20,5 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """ inherit from base and Basemodel """
         super().__init__(*args, **kwargs)
+
+    places = relationship("Place", backref="user", cascade="delete")
