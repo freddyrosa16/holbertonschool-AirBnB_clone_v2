@@ -2,6 +2,7 @@
 """
 Handles the unittest for Basemodel
 """
+import models
 from models.base_model import BaseModel
 import unittest
 import datetime
