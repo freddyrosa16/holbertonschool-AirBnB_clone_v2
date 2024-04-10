@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """ DBStorage engine """
 from os import getenv
@@ -60,11 +61,10 @@ class DBStorage:
     def reload(self):
         """ create all tables in the database  and initializes a session """
         Base.metadata.create_all(self.__engine)
-        session_creat = sessionmaker(bind=self.__engine,
-                                     expire_on_commit=False)
+        session_creat = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_creat)
         self.__session = Session()
 
     def close(self):
-        """ close the working session """
-        self.__session.close()
+        self.__session.remove()

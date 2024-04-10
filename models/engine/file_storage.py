@@ -16,8 +16,7 @@ class FileStorage:
         if not isinstance(cls, str):
             cls = cls.__name__
 
-        return {k: v for k, v in self.__objects.items()
-                if k.startswith(cls + ".")}
+        return {k: v for k, v in self.__objects.items() if k.startswith(cls + ".")}
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -64,5 +63,4 @@ class FileStorage:
             del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
 
     def close(self):
-        """ call reload """
         self.reload()
